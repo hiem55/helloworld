@@ -1,14 +1,53 @@
-<!-- templates/home.html -->
 {% extends "base.html" %}
 {% block content %}
 
-  <h1>Home page</h1>
-  <h3>Name: {{firstName}} {{lastName}} </h3>
+<h1>Home page</h1>
+<h3>Name: {{firstName}} {{lastName}} </h3>
 
-  <h3>Showing number list.</h3>
-  <ul>
-    {% for mynumber in mynumbers %}
-        <li>{{mynumber}}</li>
-    {% endfor %}
-  </ul>
+    <h1>House Price Prediction Form</h1>
+<form action="{% url 'submit_form' %}" method="post">
+        {% csrf_token %}
+        <label for="sq_ft">Square Feet:</label>
+        <input type="number" id="sq_ft" name="sq_ft" required><br><br>
+
+        <label>Number of Bedrooms:</label><br>
+        {% for i in "123456" %}
+        <input type="radio" id="bedrooms_{{ i }}" name="bedrooms" value="{{ i }}" required>
+        <label for="bedrooms_{{ i }}">{{ i }}</label>
+        {% endfor %}
+        <br><br>
+
+        <label>Number of Bathrooms:</label><br>
+        {% for i in "123456" %}
+        <input type="radio" id="bathrooms_{{ i }}" name="bathrooms" value="{{ i }}" required>
+        <label for="bathrooms_{{ i }}">{{ i }}</label>
+        {% endfor %}
+        <br><br>
+
+        <label for="loc">Location:</label>
+        <select id="loc" name="loc" required>
+            <option value="0">Rural</option>
+            <option value="1">Suburban</option>
+            <option value="2">Urban</option>
+        </select><br><br>
+
+
+
+    <!-- Submit button -->
+    <div class="input-group mb-3">
+        <button type="submit" class="btn btn-dark form-control">Submit House Info</button>
+    </div>
+</form>
+
+<h2>House Price Prediction: {{prediction}}</h2>
+
+<script>
+    // Get the prediction value from the server-side rendered template
+    var prediction = "{{ prediction }}";
+
+    // Log the prediction value to the browser's console
+    console.log("Prediction:", prediction);
+</script>
+
 {% endblock content %}
+
